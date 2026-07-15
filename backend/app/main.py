@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.database.database import Base, engine
 import app.models  # noqa: F401
-
+from app.routers.employees import router as employees_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -27,6 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(employees_router)
 
 @app.get("/")
 def root():
