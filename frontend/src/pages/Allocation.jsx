@@ -166,7 +166,7 @@ function Allocation() {
       setError("");
 
       const response = await api.get(
-        `/seats/recommendations/${employee.id}`,
+        `/seats/recommend/${employee.id}`,
         {
           params: {
             limit: 6,
