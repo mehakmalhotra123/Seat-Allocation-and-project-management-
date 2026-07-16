@@ -10,8 +10,11 @@ from app.routers.seats import router as seats_router
 
 from app.routers.dashboard import router as dashboard_router
 from app.routers.ai import router as ai_router
+from app.database.seed import seed_database
 
 Base.metadata.create_all(bind=engine)
+
+seed_database()
 
 
 app = FastAPI(

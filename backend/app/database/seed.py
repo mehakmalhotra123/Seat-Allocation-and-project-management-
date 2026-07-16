@@ -361,3 +361,55 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+def seed_database():
+    random.seed(RANDOM_SEED)
+
+    fake = Faker()
+    Faker.seed(RANDOM_SEED)
+
+    db = SessionLocal()
+
+    try:
+        # Database already contains data
+        if db.query(Employee).count() > 0:
+            print("Database already seeded.")
+            return
+
+        print("Starting database seed...")
+
+        projects = create_projects(db)
+
+        seats = create_seats(db)
+
+        employees = create_employees(
+            db,
+            projects,
+            fake,
+        )
+
+        create_allocations(
+            db,
+            employees,
+            seats,
+        )
+
+        print_summary(db)
+
+        print("Database seeded successfully!")
+
+    except Exception as error:
+        db.rollback()
+
+        print(f"Seed failed: {error}")
+
+        raise
+
+    finally:
+        db.close()
+
+
+if __name__ == "__main__":
+    reset_database()
+    seed_database()
+    
